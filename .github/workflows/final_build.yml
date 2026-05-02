@@ -6,23 +6,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Android Release
+      - name: Packing Project
         run: |
-          npx react-native bundle --platform android --dev false --entry-file App.js --bundle-output index.android.bundle --assets-dest android/app/src/main/res
-          echo "Build Process Started..."
+          zip -r project_files.zip . -x "*.git*"
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+      - name: Upload Result
+        uses: actions/upload-artifact@v4
         with:
-          name: my-app-apk
-          path: index.android.bundle
+          name: Mazen-App-Package
+          path: project_files.zip
